@@ -39,14 +39,14 @@ def mount_path (base_dir)
   return base_dir
 end
 
-# Asserts that an entry is in the /etc/hosts file for the given host / ip combination
+# Asserts that an entry is in the hosts file for the given host / ip combination
 # Params:
 # +host+:: +String+ hostname of the hosts file entry
 # +ip+:: +String+ ip address of the hosts file entry
 def assert_hosts_entry (host, ip)
-  if not %x{grep -E '^#{ip}\\W+#{host}$' /etc/hosts}.strip!
-    puts "==> host: Appending '#{ip} #{host}' to /etc/hosts file"
-    system %-echo '#{ip} #{host}' | sudo tee \-a /etc/hosts > /dev/null-
+  if not %x{grep -E '^#{ip}\\W+#{host}$' #{HOSTS_FILE}}.strip!
+    puts "==> host: Appending '#{ip} #{host}' to #{HOSTS_FILE} file"
+    #system %-echo '#{ip} #{host}' | sudo tee \-a #{HOSTS_FILE} > /dev/null-
   end
 end
 
@@ -112,16 +112,16 @@ unset i
   if not (File.exist?('/etc/exports') and %x{grep '## VAGRANT START ##' /etc/exports}.strip!)
     puts "==> host: Adding entries to /etc/exports for NFS mounts"
     
-    mapall = %x{printf $(id \-u):$(grep ^admin: /etc/group | cut \-d : \-f 3)}
-    nfs_exports = %-
+    #mapall = %x{printf $(id \-u):$(grep ^admin: /etc/group | cut \-d : \-f 3)}
+    #nfs_exports = %-
 #{MOUNT_PATH}/sites/ \-alldirs \-network 10.19.89.0 \-mask 255.255.255.0 \-mapall=#{mapall}
 #{MOUNT_PATH}/mysql/ \-alldirs \-network 10.19.89.0 \-mask 255.255.255.0 \-mapall=#{mapall}
--
-    system %-
-      printf "\n## VAGRANT START ##%s## VAGRANT END ##\n" '#{nfs_exports}' | sudo tee \-a /etc/exports > /dev/null
-      sudo nfsd restart
-    -
-    changes = true
+#-
+    #system %-
+    #  printf "\n## VAGRANT START ##%s## VAGRANT END ##\n" '#{nfs_exports}' | sudo tee \-a /etc/exports > /dev/null
+    #  sudo nfsd restart
+    #-
+    #changes = true
   end
 
   # verify virtualbox machine directory

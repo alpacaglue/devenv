@@ -13,12 +13,13 @@ require_relative 'lib/provision'
 require_relative 'lib/machine'
 
 # configure environment paths
-BASE_DIR = base_dir('/server')
+BASE_DIR = base_dir('C:/server')
 MOUNT_PATH = mount_path(BASE_DIR)
-VAGRANT_DIR = BASE_DIR + '/vagrant'
-SHARED_DIR = BASE_DIR + '/.shared'
-SITES_DIR = '/sites'
+VAGRANT_DIR = BASE_DIR + '\vagrant'
+SHARED_DIR = BASE_DIR + '\.shared'
+SITES_DIR = 'C:/server\sites'
 SITES_MOUNT = '/var/www/sites'
+HOSTS_FILE = 'C:\windows\system32\drivers\etc\hosts'
 
 # auto configure host machine
 auto_config_host
